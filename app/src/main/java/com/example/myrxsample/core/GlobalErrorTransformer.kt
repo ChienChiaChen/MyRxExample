@@ -21,8 +21,11 @@ class GlobalErrorTransformer<T> constructor(
     override fun apply(upstream: Observable<T>): ObservableSource<T> {
         return upstream
             .flatMap { onNextInterceptor(it) }
+            .onErrorResumeNext { throwable: Throwable ->
+                Log.w("jason", "onErrorResumeNext")
+                onErrorResumeNext(throwable)
+            }
             .retryWhen(ObservableRetryDelay(onErrorRetrySupplier))
-            .onErrorResumeNext { throwable: Throwable -> onErrorResumeNext(throwable) }
             .doOnError(onErrorConsumer)
 
     }

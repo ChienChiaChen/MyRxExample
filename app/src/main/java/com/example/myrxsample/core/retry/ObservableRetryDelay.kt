@@ -1,5 +1,6 @@
 package com.example.myrxsample.core.retry
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.functions.Function
@@ -12,6 +13,7 @@ class ObservableRetryDelay(
     private var retryCount: Int = 0
 
     override fun apply(throwableObs: Observable<Throwable>): ObservableSource<*> {
+        Log.w("jason", "ObservableRetryDelay::apply")
         return throwableObs
             .flatMap { error ->
 

@@ -18,9 +18,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test1"
+        android:text="Go To Retry dialog"
         android:textAllCaps="false"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:onClick="goToRetryDialogPage"/>
 
     <Button
         android:layout_width="match_parent"

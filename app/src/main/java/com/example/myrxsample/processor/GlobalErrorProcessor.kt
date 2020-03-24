@@ -28,6 +28,7 @@ object GlobalErrorProcessor {
                 }
             },
             onErrorResumeNext = { error ->
+                Log.w("jason", "GlobalErrorProcessor::onErrorResumeNext")
                 when (error) {
                     is ConnectException -> Observable.error<T>(Errors.ConnectFailedException)
                     is Errors.AuthorizationError -> Observable.error<T>(error) // 这个错误会在onErrorRetrySupplier()中处理
@@ -35,6 +36,7 @@ object GlobalErrorProcessor {
                 }
             },
             onErrorRetrySupplier = { retrySupplierError ->
+                Log.w("jason", "GlobalErrorProcessor::onErrorRetrySupplier")
                 when (retrySupplierError) {
                     Errors.ConnectFailedException -> RetryConfig.simpleInstance {
                         RxDialog.showErrorDialog(fragmentActivity, "ConnectException")

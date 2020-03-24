@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.myrxsample.error.RetryDialogActivity
 import com.example.myrxsample.error.ToastActivity
 
 class MainActivity : AppCompatActivity() {
@@ -15,5 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     fun goToErrorToastPage(view: View) {
         startActivity(Intent(this, ToastActivity::class.java))
+    }
+
+    fun goToRetryDialogPage(view: View) {
+        startActivity(Intent(this, RetryDialogActivity::class.java))
     }
 }
