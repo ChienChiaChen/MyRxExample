@@ -10,9 +10,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test1"
+        android:text="Go To Error Toast Page"
         android:textAllCaps="false"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:onClick="goToErrorToastPage"/>
 
     <Button
         android:layout_width="match_parent"

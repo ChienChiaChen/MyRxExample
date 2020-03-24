@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".error.ToastActivity">
 
+    <TextView
+        android:id="@+id/logs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BBBBer"
+        />
+
+    <Button
+        android:id="@+id/clickIt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click it"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
