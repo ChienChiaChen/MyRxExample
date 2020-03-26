@@ -1,7 +1,6 @@
 package com.example.myrxsample.core
 
 
-import android.util.Log
 import com.example.myrxsample.core.retry.ObservableRetryDelay
 import com.example.myrxsample.core.retry.RetryConfig
 import io.reactivex.*
@@ -22,7 +21,6 @@ class GlobalErrorTransformer<T> constructor(
         return upstream
             .flatMap { onNextInterceptor(it) }
             .onErrorResumeNext { throwable: Throwable ->
-                Log.w("jason", "onErrorResumeNext")
                 onErrorResumeNext(throwable)
             }
             .retryWhen(ObservableRetryDelay(onErrorRetrySupplier))

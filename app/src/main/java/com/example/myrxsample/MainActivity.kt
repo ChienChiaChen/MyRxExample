@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.myrxsample.error.RetryDialogActivity
 import com.example.myrxsample.error.ToastActivity
+import com.example.myrxsample.error.TokenExpiredActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,5 +21,9 @@ class MainActivity : AppCompatActivity() {
 
     fun goToRetryDialogPage(view: View) {
         startActivity(Intent(this, RetryDialogActivity::class.java))
+    }
+
+    fun goToUpdatingTokenPage(view: View) {
+        startActivity(Intent(this, TokenExpiredActivity::class.java))
     }
 }

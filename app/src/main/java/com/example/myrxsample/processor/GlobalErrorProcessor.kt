@@ -7,10 +7,13 @@ import com.example.myrxsample.core.GlobalErrorTransformer
 import com.example.myrxsample.core.retry.RetryConfig
 import com.example.myrxsample.entity.BaseEntity
 import com.example.myrxsample.entity.Errors
+import com.example.myrxsample.processor.tokens.AuthorizationErrorProcessResult
+import com.example.myrxsample.processor.tokens.AuthorizationErrorProcessor
 import com.example.myrxsample.utils.ui.RxDialog
 import io.reactivex.Observable
 import org.json.JSONException
 import java.net.ConnectException
+import java.util.concurrent.TimeUnit
 
 object GlobalErrorProcessor {
 
@@ -28,18 +31,40 @@ object GlobalErrorProcessor {
                 }
             },
             onErrorResumeNext = { error ->
-                Log.w("jason", "GlobalErrorProcessor::onErrorResumeNext")
                 when (error) {
                     is ConnectException -> Observable.error<T>(Errors.ConnectFailedException)
-                    is Errors.AuthorizationError -> Observable.error<T>(error) // 这个错误会在onErrorRetrySupplier()中处理
+                    is Errors.AuthorizationError -> Observable.error<T>(error)
                     else -> Observable.error<T>(error)
                 }
             },
             onErrorRetrySupplier = { retrySupplierError ->
-                Log.w("jason", "GlobalErrorProcessor::onErrorRetrySupplier")
                 when (retrySupplierError) {
-                    Errors.ConnectFailedException -> RetryConfig.simpleInstance {
+                    is Errors.ConnectFailedException -> RetryConfig.simpleInstance {
                         RxDialog.showErrorDialog(fragmentActivity, "ConnectException")
+                    }
+                    is Errors.AuthorizationError -> {
+                        RetryConfig.simpleInstance {
+                            val waitLogin = AuthorizationErrorProcessResult.WaitLoginInQueue(lastRefreshStamp = retrySupplierError.timeStamp)
+
+                            AuthorizationErrorProcessor
+                                .processTokenExpiredError(fragmentActivity, waitLogin)
+                                .retryWhen {
+                                    it.flatMap { processorError ->
+                                        when (processorError) {
+                                            is AuthorizationErrorProcessResult.WaitLoginInQueue -> Observable.timer(50, TimeUnit.MILLISECONDS)
+                                            else -> Observable.error(processorError)
+                                        }
+                                    }
+                                }
+                                .onErrorReturn { processorError ->
+                                    when (processorError) {
+                                        is AuthorizationErrorProcessResult.LoginSuccess -> true
+                                        is AuthorizationErrorProcessResult.LoginFailed -> false
+                                        else -> false
+                                    }
+                                }
+                                .firstOrError()
+                        }
                     }
                     else -> RetryConfig.none()// No retry
                 }
