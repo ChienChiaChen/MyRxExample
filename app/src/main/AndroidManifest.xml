@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.SearchActivity"></activity>
+        <activity android:name=".activities.RxLoginActivity"></activity>
+        <activity android:name=".activities.SearchActivity" />
         <activity android:name=".error.login.LoginActivity" />
         <activity android:name=".error.TokenExpiredActivity" />
         <activity android:name=".error.RetryDialogActivity" />

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.myrxsample.activities.RxLoginActivity
 import com.example.myrxsample.activities.SearchActivity
 import com.example.myrxsample.error.RetryDialogActivity
 import com.example.myrxsample.error.ToastActivity
@@ -30,5 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     fun goSearchPage(view: View) {
         startActivity(Intent(this, SearchActivity::class.java))
+    }
+
+    fun goRxLoginPage(view: View) {
+        startActivity(Intent(this, RxLoginActivity::class.java))
     }
 }

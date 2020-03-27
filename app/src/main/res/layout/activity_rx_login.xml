@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RxLoginActivity">
+    <EditText
+        android:id="@+id/et_name"
+        android:hint="請輸入2-8位帳戶名稱"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+    <EditText
+        android:id="@+id/et_password"
+        android:hint="請输入4-16位密码"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+    <Button
+        android:id="@+id/bt_login"
+        android:text="帳號名或密碼無效"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+</LinearLayout>
