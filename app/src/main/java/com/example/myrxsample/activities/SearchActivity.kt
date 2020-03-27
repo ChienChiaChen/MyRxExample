@@ -24,7 +24,7 @@ class SearchActivity : AppCompatActivity() {
         mPublishSubject = PublishSubject.create()
 
         mCompositeDisposable.add(mPublishSubject
-            .filter { it.isNotEmpty() }
+            .filter(String::isNotEmpty)
             .debounce(200, TimeUnit.MILLISECONDS)
             .switchMap { query ->
                 return@switchMap Observable.create<String> { emitter ->

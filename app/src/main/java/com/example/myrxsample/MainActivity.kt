@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.myrxsample.activities.CacheActivity
 import com.example.myrxsample.activities.RxLoginActivity
 import com.example.myrxsample.activities.SearchActivity
 import com.example.myrxsample.error.RetryDialogActivity
@@ -35,5 +36,9 @@ class MainActivity : AppCompatActivity() {
 
     fun goRxLoginPage(view: View) {
         startActivity(Intent(this, RxLoginActivity::class.java))
+    }
+
+    fun goCachePage(view: View) {
+        startActivity(Intent(this, CacheActivity::class.java))
     }
 }

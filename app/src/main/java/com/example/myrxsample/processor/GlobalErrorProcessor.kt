@@ -43,28 +43,7 @@ object GlobalErrorProcessor {
                         RxDialog.showErrorDialog(fragmentActivity, "ConnectException")
                     }
                     is Errors.AuthorizationError -> {
-                        RetryConfig.simpleInstance {
-                            val waitLogin = AuthorizationErrorProcessResult.WaitLoginInQueue(lastRefreshStamp = retrySupplierError.timeStamp)
-
-                            AuthorizationErrorProcessor
-                                .processTokenExpiredError(fragmentActivity, waitLogin)
-                                .retryWhen {
-                                    it.flatMap { processorError ->
-                                        when (processorError) {
-                                            is AuthorizationErrorProcessResult.WaitLoginInQueue -> Observable.timer(50, TimeUnit.MILLISECONDS)
-                                            else -> Observable.error(processorError)
-                                        }
-                                    }
-                                }
-                                .onErrorReturn { processorError ->
-                                    when (processorError) {
-                                        is AuthorizationErrorProcessResult.LoginSuccess -> true
-                                        is AuthorizationErrorProcessResult.LoginFailed -> false
-                                        else -> false
-                                    }
-                                }
-                                .firstOrError()
-                        }
+                        retryConfig(retrySupplierError, fragmentActivity)
                     }
                     else -> RetryConfig.none()// No retry
                 }
@@ -80,4 +59,36 @@ object GlobalErrorProcessor {
             }
 
         )
+
+    private fun retryConfig(
+        retrySupplierError: Errors.AuthorizationError,
+        fragmentActivity: FragmentActivity
+    ): RetryConfig {
+        return RetryConfig.simpleInstance {
+            val waitLogin =
+                AuthorizationErrorProcessResult.WaitLoginInQueue(lastRefreshStamp = retrySupplierError.timeStamp)
+
+            AuthorizationErrorProcessor
+                .processTokenExpiredError(fragmentActivity, waitLogin)
+                .retryWhen {
+                    it.flatMap { processorError ->
+                        when (processorError) {
+                            is AuthorizationErrorProcessResult.WaitLoginInQueue -> Observable.timer(
+                                50,
+                                TimeUnit.MILLISECONDS
+                            )
+                            else -> Observable.error(processorError)
+                        }
+                    }
+                }
+                .onErrorReturn { processorError ->
+                    when (processorError) {
+                        is AuthorizationErrorProcessResult.LoginSuccess -> true
+                        is AuthorizationErrorProcessResult.LoginFailed -> false
+                        else -> false
+                    }
+                }
+                .firstOrError()
+        }
+    }
 }

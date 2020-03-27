@@ -42,4 +42,5 @@ dependencies {
 
     implementation libs.rxkotlin
     implementation libs.rxandroid
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

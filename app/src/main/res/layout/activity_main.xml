@@ -49,4 +49,13 @@
         android:textColor="@android:color/black"
         android:onClick="goRxLoginPage"
         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go Cache page"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:onClick="goCachePage"
+        />
 </LinearLayout>
